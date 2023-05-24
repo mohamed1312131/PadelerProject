@@ -5,11 +5,13 @@
  */
 package gui;
 
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
+
 /**
  *
  * @author oussama.hadjahmed
@@ -17,13 +19,12 @@ import javafx.fxml.FXMLLoader;
 public class FXMain extends Application {
     
     @Override
-    public void start(Stage primaryStage) throws Exception  {
+    public void start(Stage primaryStage) throws IOException  {
         
-          String filepath ="C:\\Users\\oussama.hadjahmed\\Desktop\\ESPRIT\\PIDEV\\ConnexionBD1cinfo2\\src\\gui"+"AddPersonneConroller.fxml";
+          //String filepath ="C:\\Users\\oussama.hadjahmed\\Desktop\\ESPRIT\\PIDEV\\ConnexionBD1cinfo2\\src\\gui"+;
  
-        Parent root = FXMLLoader.load(getClass().getResource(filepath)) ;
-        Scene scene = new Scene(root, 300, 250);
-        
+        Parent root = FXMLLoader.load(getClass().getResource("acceuil.fxml"));
+        Scene scene = new Scene(root);      
         primaryStage.setTitle("Hello World!");
         primaryStage.setScene(scene);
         primaryStage.show();
