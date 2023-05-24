@@ -80,6 +80,9 @@ public class PersonneService implements Iservice<Personne>{
 
     @Override
     public Personne readById(int id) {
+        
+        
+        
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
