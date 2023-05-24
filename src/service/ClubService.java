@@ -80,7 +80,7 @@ public class ClubService implements Iservice<Club> {
                 c.setAdresse(rs.getString("adresse"));
             }
         } catch (SQLException ex) {
-            Logger.getLogger(PersonneService.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClubService.class.getName()).log(Level.SEVERE, null, ex);
         }
         return c;
     }
