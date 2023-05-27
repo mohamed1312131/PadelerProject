@@ -108,7 +108,7 @@ public class TerrainService implements Iservice<Terrain> {
 
     @Override
     public void update(Terrain t) {
-        throw new UnsupportedOperationException("Not supporlkosdnvkjndfkjnvdkjfnvkjdfnted yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not oussama yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
