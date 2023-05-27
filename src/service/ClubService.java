@@ -106,7 +106,7 @@ public class ClubService implements Iservice<Club> {
 
     @Override
     public void update(Club t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not club yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
