@@ -106,7 +106,29 @@ public class ClubService implements Iservice<Club> {
 
     @Override
     public void update(Club t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Update here : ");
+
+        String requete = "UPDATE club SET name = ?, adresse = ? WHERE idClub = ?";
+
+        try {
+            pst = connexion.prepareStatement(requete);
+            pst.setString(1, t.getName());
+            pst.setString(2, t.getAdresse());
+            pst.setInt(3, t.getIdClub());
+
+            int rowsDeleted = pst.executeUpdate();
+            System.out.println("Update rowsDeleted : " + rowsDeleted);
+
+            if (rowsDeleted > 0) {
+                System.out.println("Le club modifié avec succés ");
+            } else {
+                System.out.println("Erreur lors de modification");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ClubService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
 }
