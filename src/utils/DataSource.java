@@ -11,10 +11,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author wiemhjiri
- */
+
 public class DataSource {
     //port : 3306
     private String url="jdbc:mysql://localhost/padeler";

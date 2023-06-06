@@ -5,19 +5,9 @@
  */
 package Padeler;
 
-import entite.Club;
-import entite.Terrain;
 
-import java.util.List;
-
-
-import service.ClubService;
-import service.TerrainService;
 import utils.DataSource;
-/**
- *
- * @author wiemhjiri
- */
+
 public class Test {
 
     public static void main(String[] args) {
@@ -25,14 +15,7 @@ public class Test {
 
 
 
-        List<Club> l = null ;
-        ClubService cs = new ClubService(); 
-        
-        Club club = new Club() ;
-        club.setIdClub(14);
-        club.setName("testUpdate");
-        club.setAdresse("testUpdate");
-        cs.update(club);
+
         
         
         

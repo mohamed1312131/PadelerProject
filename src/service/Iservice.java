@@ -7,10 +7,6 @@ package service;
 
 import java.util.List;
 
-/**
- *
- * @author wiemhjiri
- */
 public interface Iservice<T> {
     void insert(T t);
     List<T> readAll();
