@@ -5,12 +5,18 @@
  */
 package padler;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.sql.Blob;
 import java.sql.Connection;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,6 +25,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -43,6 +50,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javax.imageio.ImageIO;
 import static javax.management.remote.JMXConnectorFactory.connect;
 
 /**
@@ -196,7 +204,7 @@ public class DashboardController implements Initializable{
     private Statement statement;
     private PreparedStatement prepare;
     private ResultSet result;
-
+    private Blob imageBlob;
     private Image image;
     
     
@@ -206,7 +214,7 @@ public class DashboardController implements Initializable{
         java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
         String sql = "INSERT INTO user "
-                + "(employee_id,firstName,lastName,gender,phoneNum,image,date) "
+                + "(idUser,firstName,lastName,gender,numTel,image,date) "
                 + "VALUES(?,?,?,?,?,?,?)";
 
         connect = database.connectDb();
@@ -218,7 +226,8 @@ public class DashboardController implements Initializable{
                     || adduser_lastName.getText().isEmpty()
                     || adduser_gender.getSelectionModel().getSelectedItem() == null
                     || adduser_phoneNum.getText().isEmpty()
-                    || getData.path == null || getData.path == "") {
+                   // || getData.path == null || getData.path == ""
+                    ) {
                 alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
@@ -236,7 +245,7 @@ public class DashboardController implements Initializable{
                     alert = new Alert(AlertType.ERROR);
                     alert.setTitle("Error Message");
                     alert.setHeaderText(null);
-                    alert.setContentText("Employee ID: " + adduser_userID.getText() + " was already exist!");
+                    alert.setContentText("User ID: " + adduser_userID.getText() + " was already exist!");
                     alert.showAndWait();
                 } else {
 
@@ -248,31 +257,14 @@ public class DashboardController implements Initializable{
                     prepare.setString(5, adduser_phoneNum.getText());
                     //prepare.setString(6, (String) adduser_position.getSelectionModel().getSelectedItem());
 
-                    String uri = getData.path;
+                   /* String uri = getData.path;
                     uri = uri.replace("\\", "\\\\");
-
-                    prepare.setString(6, uri);
+*/
+                   
+                    System.out.println("string blob:"+imageBlob.toString());
+                    prepare.setBlob(6, imageBlob);
                     prepare.setString(7, String.valueOf(sqlDate));
                     prepare.executeUpdate();
-
-                    String insertInfo = "INSERT INTO user "
-                            + "(idUser,firstName,lastName,date) "
-                            + "VALUES(?,?,?,?)";
-
-                    prepare = connect.prepareStatement(insertInfo);
-                    prepare.setString(1, adduser_userID.getText());
-                    prepare.setString(2, adduser_firstName.getText());
-                    prepare.setString(3, adduser_lastName.getText());
-                    //prepare.setString(4, (String) adduser_position.getSelectionModel().getSelectedItem());
-                    prepare.setString(4, "0.0");
-                    prepare.setString(5, String.valueOf(sqlDate));
-                    prepare.executeUpdate();
-
-                    alert = new Alert(AlertType.INFORMATION);
-                    alert.setTitle("Information Message");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Successfully Added!");
-                    alert.showAndWait();
 
                     addUserShowListData();
                     addUserReset();
@@ -287,7 +279,7 @@ public class DashboardController implements Initializable{
     
     private String[] positionList = {"Admin", "Simple user"};
 
-    public void addEmployeePositionList() {
+    public void adduserPositionList() {
         List<String> listP = new ArrayList<>();
 
         for (String data : positionList) {
@@ -322,19 +314,48 @@ public class DashboardController implements Initializable{
         getData.path = "";
     }
     
-    public void addUserInsertImage() {
+    
+    
+    
+    public static Blob convertToBlob(File file) throws IOException, SQLException {
+        Image image = new Image(file.toURI().toString());
+        java.awt.Image awtImage = SwingFXUtils.fromFXImage(image, null);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", outputStream);
+            byte[] imageBytes = outputStream.toByteArray();
+            return new javax.sql.rowset.serial.SerialBlob(imageBytes);
+        } finally {
+            outputStream.close();
+        }
+    
+
+    }
+    public Image convertBlobToImage(Blob blob) throws SQLException, IOException {
+    byte[] imageData = blob.getBytes(1, (int) blob.length());
+
+    ByteArrayInputStream inputStream = new ByteArrayInputStream(imageData);
+    BufferedImage bufferedImage = ImageIO.read(inputStream);
+
+    return SwingFXUtils.toFXImage(bufferedImage, null);
+}
+
+    public void addUserInsertImage() throws IOException, SQLException {
 
         FileChooser open = new FileChooser();
         File file = open.showOpenDialog(main_form.getScene().getWindow());
-
+    
         if (file != null) {
-            getData.path = file.getAbsolutePath();
+         //   getData.path = file.getAbsolutePath();
 
             image = new Image(file.toURI().toString(), 101, 127, false, true);
             adduser_col_image.setImage(image);
+                    Blob blob = convertToBlob(file);
+        
+           imageBlob=blob;
         }
-    }
     
+    }
     public ObservableList<userData> addUserListData() {
 
         ObservableList<userData> listData = FXCollections.observableArrayList();
@@ -381,7 +402,7 @@ public class DashboardController implements Initializable{
 
     }
     
-    public void addUserSelect() {
+    public void addUserSelect() throws SQLException, IOException {
         userData userD = adduser_col_tableView.getSelectionModel().getSelectedItem();
         int num = adduser_col_tableView.getSelectionModel().getSelectedIndex();
 
@@ -398,8 +419,12 @@ public class DashboardController implements Initializable{
 
         String uri = "file:" + userD.getImage();
 
-        image = new Image(uri, 101, 127, false, true);
-        adduser_col_image.setImage(image);
+        
+        Image imageB = convertBlobToImage(imageBlob);
+
+        
+//        image = new Image(uri, 101, 127, false, true);
+        adduser_col_image.setImage(imageB);
     }
     
     
@@ -510,5 +535,7 @@ public class DashboardController implements Initializable{
         addUserShowListData();
         addUserGendernList();
     }
+
+  
     
 }
