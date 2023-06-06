@@ -5,17 +5,10 @@
  */
 package service;
 
-import java.util.List;
-
 /**
  *
- * @author wiemhjiri
+ * @author oussama.hadjahmed
  */
-public interface Iservice<T> {
-    void insert(T t);
-    List<T> readAll();
-    T readById(int id);
-    void delete(int id);
-    void update(T t);
+public class DiponibiliteTerrainService {
     
 }

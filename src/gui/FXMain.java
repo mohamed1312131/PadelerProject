@@ -14,8 +14,12 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.StageStyle;
+import service.TerrainService;
 
-
+/**
+ *
+ * @author oussama.hadjahmed
+ */
 public class FXMain extends Application {
 
     @Override
@@ -24,7 +28,7 @@ public class FXMain extends Application {
         //String filepath ="C:\\Users\\oussama.hadjahmed\\Desktop\\ESPRIT\\PIDEV\\ConnexionBD1cinfo2\\src\\gui"+;
         // Parent root = FXMLLoader.load(getClass().getResource("acceuil.fxml"));
         try {
-            Parent parent = FXMLLoader.load(getClass().getResource("tableViewClub.fxml"));
+            Parent parent = FXMLLoader.load(getClass().getResource("Login.fxml"));
 
             Scene scene = new Scene(parent);
             primaryStage.setScene(scene);

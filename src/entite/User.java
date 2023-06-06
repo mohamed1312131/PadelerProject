@@ -1,6 +1,6 @@
 package entite;
 
-
+import static java.sql.Types.NULL;
 
 public class User {
     private int idUser;
@@ -13,8 +13,16 @@ public class User {
 
     private int numTel;
 
+    private String role;
+
+    private int idTeam;
 
     public User() {
+    }
+
+    public User(String firstName, String password) {
+        this.firstName = firstName;
+        this.password = password;
     }
 
     public User(String firstName, String lastName, String email, String password, int numTel) {
@@ -24,7 +32,27 @@ public class User {
         this.email = email;
         this.password = password;
         this.numTel = numTel;
+        this.idTeam=NULL;
+    }
+    public User(int idUser,String firstName, String lastName, String email, String password, int numTel,int idTeam) {
+        this.idUser=idUser;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.numTel = numTel;
+        this.idTeam=idTeam;
+    }
 
+    public User(int idUser, String firstName, String lastName, String email, String password, int numTel, int idTeam, String role) {
+        this.idUser=idUser;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.numTel = numTel;
+        this.idTeam=idTeam;
+        this.role=role;
     }
 
     public int getIdUser() {
@@ -77,5 +105,19 @@ public class User {
 
 
 
+    public int getIdTeam() {
+        return idTeam;
+    }
 
+    public void setIdTeam(int idTeam) {
+        this.idTeam = idTeam;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 }
