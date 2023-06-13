@@ -68,13 +68,15 @@ public class LoginController implements Initializable {
                 alert.show();
             } else {
                 if (loggedInUser != null) { // Check if login was successful
+                    // Set the logged-in user in the SessionContext
+                    SessionContext.getInstance().setLoggedInUser(loggedInUser);
                     alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Information Message");
                     alert.setHeaderText(null);
-                    alert.setContentText("Successfully Login"+loggedInUser.getEmail());
+                    alert.setContentText("Successfully Login" + loggedInUser.getEmail());
                     alert.show();
                     Stage stage = new Stage();
-                    if (loggedInUser.getRole().equals("ADMIN")){
+                    if (loggedInUser.getRole().equals("ADMIN")) {
                         loginbtn.getScene().getWindow().hide();
                         Parent root = FXMLLoader.load(getClass().getResource("AdminDashboard.fxml"));
                         Scene scene = new Scene(root);
@@ -111,8 +113,7 @@ public class LoginController implements Initializable {
                         stage.initStyle(StageStyle.TRANSPARENT);
                         stage.setScene(scene);
                         stage.show();
-                    }
-                    else {
+                    } else {
                         loginbtn.getScene().getWindow().hide();
                         Parent root = FXMLLoader.load(getClass().getResource("UserDashboard.fxml"));
                         Scene scene = new Scene(root);
@@ -131,7 +132,6 @@ public class LoginController implements Initializable {
                         stage.setScene(scene);
                         stage.show();
                     }
-
 
                 } else {
                     alert = new Alert(Alert.AlertType.ERROR);
