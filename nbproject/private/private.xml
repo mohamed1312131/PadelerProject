@@ -3,13 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/oussama.hadjahmed/Desktop/ESPRIT/padelerProject/src/gui/tableviewclub.css</file>
-            <file>file:/C:/Users/oussama.hadjahmed/Desktop/ESPRIT/padelerProject/src/gui/TableViewClubController.java</file>
-            <file>file:/C:/Users/oussama.hadjahmed/Desktop/ESPRIT/padelerProject/src/gui/tableViewClub.fxml</file>
+            <file>file:/C:/Users/oussama.hadjahmed/Desktop/ESPRIT/padelerProject/src/gui/AddTerrainController.java</file>
+            <file>file:/C:/Users/oussama.hadjahmed/Desktop/ESPRIT/padelerProject/src/gui/TableViewTerrainController.java</file>
             <file>file:/C:/Users/oussama.hadjahmed/Desktop/ESPRIT/padelerProject/src/Padeler/Test.java</file>
-            <file>file:/C:/Users/oussama.hadjahmed/Desktop/ESPRIT/padelerProject/src/service/Iservice.java</file>
             <file>file:/C:/Users/oussama.hadjahmed/Desktop/ESPRIT/padelerProject/src/gui/FXMain.java</file>
-            <file>file:/C:/Users/oussama.hadjahmed/Desktop/ESPRIT/padelerProject/src/entite/Club.java</file>
             <file>file:/C:/Users/oussama.hadjahmed/Desktop/ESPRIT/padelerProject/src/service/TerrainService.java</file>
         </group>
     </open-files>

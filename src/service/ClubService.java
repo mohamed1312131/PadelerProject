@@ -36,7 +36,7 @@ public class ClubService implements Iservice<Club> {
 
     @Override
     public void insert(Club c) {
-        String requete = "insert into Club (name,adresse) values('" + c.getName() + "','" + c.getAdresse() + "')";
+        String requete = "insert into Club (clubName,adresse) values('" + c.getClubName() + "','" + c.getAdresse() + "')";
 
         try {
             ste = connexion.createStatement();
@@ -55,7 +55,7 @@ public class ClubService implements Iservice<Club> {
             ste = connexion.createStatement();
             rs = ste.executeQuery(requete);
             while (rs.next()) {
-                Club c = new Club(rs.getInt("idClub"), rs.getString("name"), rs.getString("adresse"));
+                Club c = new Club(rs.getInt("idClub"), rs.getString("clubName"), rs.getString("adresse"));
                 list.add(c);
             }
         } catch (SQLException ex) {
@@ -76,7 +76,7 @@ public class ClubService implements Iservice<Club> {
 
             while (rs.next()) {
                 c.setIdClub(rs.getInt("idClub"));
-                c.setName(rs.getString("name"));
+                c.setName(rs.getString("clubName"));
                 c.setAdresse(rs.getString("adresse"));
             }
         } catch (SQLException ex) {
@@ -108,11 +108,11 @@ public class ClubService implements Iservice<Club> {
     public void update(Club t) {
         System.out.println("Update here : ");
 
-        String requete = "UPDATE club SET name = ?, adresse = ? WHERE idClub = ?";
+        String requete = "UPDATE club SET clubName = ?, adresse = ? WHERE idClub = ?";
 
         try {
             pst = connexion.prepareStatement(requete);
-            pst.setString(1, t.getName());
+            pst.setString(1, t.getClubName());
             pst.setString(2, t.getAdresse());
             pst.setInt(3, t.getIdClub());
 
@@ -130,5 +130,26 @@ public class ClubService implements Iservice<Club> {
         }
 
     }
+    
+    public Club readByClubName(String clubName) {
+        Club c = new Club();
+
+        try {
+
+            String requete = "SELECT * FROM club WHERE clubName=\"" + clubName+"\"";
+            pst = connexion.prepareStatement(requete);
+            rs = pst.executeQuery(requete);
+
+            while (rs.next()) {
+                c.setIdClub(rs.getInt("idClub"));
+                c.setName(rs.getString("clubName"));
+                c.setAdresse(rs.getString("adresse"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ClubService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return c;
+    }
+
 
 }

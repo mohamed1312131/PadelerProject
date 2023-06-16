@@ -16,7 +16,7 @@ import java.util.List;
 public class Club {
 
     private int idClub ;
-    private String name;
+    private String clubName;
     private String adresse;
     private List<Terrain> terrains = new ArrayList<Terrain>(0);
 
@@ -27,17 +27,17 @@ public class Club {
 
     public Club(int idClub , String name, String adresse) {
         this.idClub  = idClub ;
-        this.name = name;
+        this.clubName = name;
         this.adresse = adresse;
     }
 
 
-    public String getName() {
-        return name;
+    public String getClubName() {
+        return clubName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.clubName = name;
     }
 
     public String getAdresse() {
@@ -65,11 +65,14 @@ public class Club {
     }
 
 
-    @Override
+//    @Override
+//    public String toString() {
+//        return "Club{" + "idClub=" + idClub + ", clubName=" + clubName + ", adresse=" + adresse + '}';
+//    }
+ @Override
     public String toString() {
-        return "Club{" + "idClub=" + idClub + ", name=" + name + ", adresse=" + adresse + '}';
+        return clubName ;
     }
-
   
      
      

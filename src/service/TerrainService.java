@@ -35,7 +35,8 @@ public class TerrainService implements Iservice<Terrain> {
 
     @Override
     public void insert(Terrain t) {
-        String requete = "insert into Terrain (name,status,idClub) values('" + t.getName() + "','" + t.getStatus() + "','" + t.getClub().getIdClub() + "')";
+        //"','" + t.getStatus() + "','" + t.getClub().getIdClub() +
+        String requete = "insert into Terrain (clubName,status,idClub) values('" + t.getName() + "','" + 1 + "','" + t.getClub().getIdClub() + "')";
 
         try {
             ste = connexion.createStatement();
@@ -88,6 +89,32 @@ public class TerrainService implements Iservice<Terrain> {
         return t;
     }
 
+    public List<Terrain> readByClubName(String clubName) {
+        Terrain t = new Terrain();
+        List<Terrain> listTerrain = new ArrayList<>();
+
+        try {
+
+            String requete = "SELECT * FROM terrain t , club c WHERE t.idClub=c.idClub AND c.clubName= " + "\"" + clubName + "\"";
+            pst = connexion.prepareStatement(requete);
+            rs = pst.executeQuery(requete);
+
+            while (rs.next()) {
+                t.setIdTerrain(rs.getInt("idTerrain"));
+                t.setName(rs.getString("name"));
+                t.setStatus(rs.getInt("status"));
+                Club c = new Club();
+                c.setIdClub(rs.getInt("idClub"));
+                c.setName(rs.getString("clubName"));
+                t.setClub(c);
+                listTerrain.add(t);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TerrainService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listTerrain;
+    }
+
     @Override
     public void delete(int id) {
         try {
@@ -109,6 +136,24 @@ public class TerrainService implements Iservice<Terrain> {
     @Override
     public void update(Terrain t) {
         throw new UnsupportedOperationException("Not supporlkosdnvkjndfkjnvdkjfnvkjdfnted yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public List<Terrain> readAllWitClubName() {
+        String requete = "select * from terrain t, club c where  t.idClub=c.idClub";
+        List<Terrain> list = new ArrayList<>();
+        try {
+            ste = connexion.createStatement();
+            rs = ste.executeQuery(requete);
+            while (rs.next()) {
+                Club c = new Club();
+                c.setName(rs.getString("clubName"));
+                Terrain terrain = new Terrain(rs.getInt("idTerrain"), rs.getString("name"), rs.getInt("status"), c);
+                list.add(terrain);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TerrainService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
     }
 
 }

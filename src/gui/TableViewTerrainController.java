@@ -5,68 +5,82 @@
  */
 package gui;
 
-import entite.Club;
-
-import service.ClubService;
-import utils.DataSource;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import entite.Club;
 import java.io.IOException;
 import java.net.URL;
-
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import service.TerrainService;
+import entite.Terrain;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.util.Callback;
+import service.ClubService;
 
 /**
  * FXML Controller class
  *
  * @author oussama.hadjahmed
  */
-public class TableViewClubController implements Initializable {
+public class TableViewTerrainController implements Initializable {
 
     @FXML
-    private TableView<Club> clubsTable;
+    private TableColumn<Terrain, String> name;
     @FXML
-    private TableColumn<Club, Integer> idClub;
+    private TableView<Terrain> terrainsTable;
     @FXML
-    private TableColumn<Club, String> name;
+    private TableColumn<Terrain, Integer> idTerrain;
     @FXML
-    private TableColumn<Club, String> adresse;
+    private TableColumn<Terrain, Integer> status;
     @FXML
-    private TableColumn<Club, String> user;
+    private TableColumn<Terrain, String> clubName;
     @FXML
-    private TableColumn<Club, String> editClub;
-
-    Club club = null;
-    ObservableList<Club> clubList = FXCollections.observableArrayList();
+    private TableColumn<Terrain, String> editTerrain;
+    Terrain terrain = null;
+    ObservableList<Terrain> terrainList = FXCollections.observableArrayList();
+    @FXML
+    private ChoiceBox<String> nomClubInterface;
+    private List<Club> clubsInterface = new ArrayList<Club>(0);
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        DataSource ds1 = DataSource.getInstance();
-
+        // TODO
         loadDate();
+        chargeList();
+        List<String> noms = new ArrayList<>();
+        noms = clubsInterface.stream().map(Club::getClubName).collect(Collectors.toList());
+        nomClubInterface.getItems().add(0, "All");
+        if (noms.size() != 0) {
+            nomClubInterface.getItems().addAll(noms);
+        } else {
+            nomClubInterface.getItems().add("Acun Club !");
+        }
+
     }
 
     @FXML
@@ -76,10 +90,9 @@ public class TableViewClubController implements Initializable {
     }
 
     @FXML
-    private void getAddViewClub(MouseEvent event) {
-
+    private void getAddViewTerrain(MouseEvent event) {
         try {
-            Parent parent = FXMLLoader.load(getClass().getResource("addClub.fxml"));
+            Parent parent = FXMLLoader.load(getClass().getResource("addTerrain.fxml"));
             Scene scene = new Scene(parent);
             Stage stage = new Stage();
             stage.setScene(scene);
@@ -88,21 +101,31 @@ public class TableViewClubController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(TableViewClubController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     @FXML
-    public void refreshClubTable() {
-
-        ClubService cs = new ClubService();
+    private void refreshTerrainTable() {
+        TerrainService ts = new TerrainService();
+        String clubNamess = nomClubInterface.getValue();
 
         try {
-            clubList.clear();
-            clubList.addAll(cs.readAll());
-            clubsTable.setItems(clubList);
 
-        } catch (Exception x) {
-            Logger.getLogger(TableViewClubController.class.getName()).log(Level.SEVERE, null, x);
+            if (clubNamess != null && clubNamess.length() != 0 && !clubNamess.equals("All")) {
+                terrainList.clear();
+                System.out.println("clubNamess : " + clubNamess);
+                terrainList.addAll(ts.readByClubName(clubNamess));
+                terrainsTable.setItems(terrainList);
+
+            } else {
+                terrainList.clear();
+                terrainList.addAll(ts.readAllWitClubName());
+                terrainsTable.setItems(terrainList);
+
+            }
+
+        } catch (Exception e) {
+            Logger.getLogger(TableViewTerrainController.class.getName()).log(Level.SEVERE, null, e);
+
         }
 
     }
@@ -113,18 +136,21 @@ public class TableViewClubController implements Initializable {
 
     private void loadDate() {
 
-        refreshClubTable();
-        ClubService cs = new ClubService();
+        refreshTerrainTable();
+        TerrainService ts = new TerrainService();
 
-        idClub.setCellValueFactory(new PropertyValueFactory<>("idClub"));
+        idTerrain.setCellValueFactory(new PropertyValueFactory<>("idTerrain"));
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        adresse.setCellValueFactory(new PropertyValueFactory<>("adresse"));
+        status.setCellValueFactory(new PropertyValueFactory<>("status"));
+        clubName.setCellValueFactory(new PropertyValueFactory<>("club"));
+        System.out.print("test list :"+ terrainList);
+
         //user.setCellValueFactory(new PropertyValueFactory<>("user"));
         //emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
         //add cell of button edit 
-        Callback<TableColumn<Club, String>, TableCell<Club, String>> cellFoctory = (TableColumn<Club, String> param) -> {
+        Callback<TableColumn<Terrain, String>, TableCell<Terrain, String>> cellFoctory = (TableColumn<Terrain, String> param) -> {
             // make cell containing buttons
-            final TableCell<Club, String> cell = new TableCell<Club, String>() {
+            final TableCell<Terrain, String> cell = new TableCell<Terrain, String>() {
                 @Override
                 public void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
@@ -151,10 +177,10 @@ public class TableViewClubController implements Initializable {
 
                             try {
 
-                                club = clubsTable.getSelectionModel().getSelectedItem();
-                                cs.delete(club.getIdClub());
+                                terrain = terrainsTable.getSelectionModel().getSelectedItem();
+                                ts.delete(terrain.getIdTerrain());
 
-                                refreshClubTable();
+                                refreshTerrainTable();
 
                             } catch (Exception ex) {
                                 Logger.getLogger(TableViewClubController.class.getName()).log(Level.SEVERE, null, ex);
@@ -163,9 +189,9 @@ public class TableViewClubController implements Initializable {
                         });
                         editIcon.setOnMouseClicked((MouseEvent event) -> {
 
-                            club = clubsTable.getSelectionModel().getSelectedItem();
+                            terrain = terrainsTable.getSelectionModel().getSelectedItem();
                             FXMLLoader loader = new FXMLLoader();
-                            loader.setLocation(getClass().getResource("addClub.fxml"));
+                            loader.setLocation(getClass().getResource("addTerrain.fxml"));
                             try {
                                 loader.load();
 
@@ -173,14 +199,14 @@ public class TableViewClubController implements Initializable {
                                 Logger.getLogger(TableViewClubController.class.getName()).log(Level.SEVERE, null, ex);
                             }
 
-                            AddClubController addClubController = loader.getController();
-                            addClubController.setUpdate(true);
-                            addClubController.setTextField(club.getIdClub(), club.getClubName(), club.getAdresse());
+                            AddTerrainController addTerrainController = loader.getController();
+                            addTerrainController.setUpdate(true);
+                            addTerrainController.setTextField(terrain.getIdTerrain(), terrain.getName(), terrain.getStatus(), terrain.getClub().getClubName());
                             Parent parent = loader.getRoot();
                             Stage stage = new Stage();
                             stage.setScene(new Scene(parent));
                             stage.initStyle(StageStyle.UTILITY);
-                            refreshClubTable();
+                            refreshTerrainTable();
                             stage.show();
 
                         });
@@ -201,8 +227,23 @@ public class TableViewClubController implements Initializable {
 
             return cell;
         };
-        editClub.setCellFactory(cellFoctory);
-        clubsTable.setItems(clubList);
+        editTerrain.setCellFactory(cellFoctory);
+        terrainsTable.setItems(terrainList);
+
+    }
+
+    void chargeList() {
+        ClubService cd = new ClubService();
+        // Club cs = new Club();
+        // cs.setName("All");
+        clubsInterface = cd.readAll();
+        //clubsInterface.add(cs);
+
+    }
+
+    @FXML
+    private void getByClubName(MouseEvent event) {
+        refreshTerrainTable();
 
     }
 
