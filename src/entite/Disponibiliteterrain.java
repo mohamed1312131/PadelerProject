@@ -16,7 +16,7 @@ import java.sql.Date;
 public class Disponibiliteterrain {
 
     private int idDisponibiliteTerrain;
-    private Date Date;
+    private Date date;
     private int temps1;
     private int temps2;
     private int temps3;
@@ -36,9 +36,9 @@ public class Disponibiliteterrain {
     public Disponibiliteterrain() {
     }
 
-    public Disponibiliteterrain(int idDisponibiliteTerrain, Date Date, int temps1, int temps2, int temps3, int temps4, int temps5, int temps6, int temps7, int temps8, int temps9, int temps10, int temps11, int temps12, int temps13, int temps14, Terrain terrain) {
+    public Disponibiliteterrain(int idDisponibiliteTerrain, Date date, int temps1, int temps2, int temps3, int temps4, int temps5, int temps6, int temps7, int temps8, int temps9, int temps10, int temps11, int temps12, int temps13, int temps14, Terrain terrain) {
         this.idDisponibiliteTerrain = idDisponibiliteTerrain;
-        this.Date = Date;
+        this.date = date;
         this.temps1 = temps1;
         this.temps2 = temps2;
         this.temps3 = temps3;
@@ -56,8 +56,8 @@ public class Disponibiliteterrain {
         this.terrain = terrain;
     }
 
-    public Disponibiliteterrain(Date Date, int temps1, int temps2, int temps3, int temps4, int temps5, int temps6, int temps7, int temps8, int temps9, int temps10, int temps11, int temps12, int temps13, int temps14, Terrain terrain) {
-        this.Date = Date;
+    public Disponibiliteterrain(Date date, int temps1, int temps2, int temps3, int temps4, int temps5, int temps6, int temps7, int temps8, int temps9, int temps10, int temps11, int temps12, int temps13, int temps14, Terrain terrain) {
+        this.date = date;
         this.temps1 = temps1;
         this.temps2 = temps2;
         this.temps3 = temps3;
@@ -84,11 +84,11 @@ public class Disponibiliteterrain {
     }
 
     public Date getDate() {
-        return Date;
+        return date;
     }
 
-    public void setDate(Date Date) {
-        this.Date = Date;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public int getTemps1() {

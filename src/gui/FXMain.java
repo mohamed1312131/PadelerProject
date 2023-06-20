@@ -14,7 +14,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.StageStyle;
-import service.TerrainService;
 
 /**
  *
@@ -28,7 +27,7 @@ public class FXMain extends Application {
         //String filepath ="C:\\Users\\oussama.hadjahmed\\Desktop\\ESPRIT\\PIDEV\\ConnexionBD1cinfo2\\src\\gui"+;
         // Parent root = FXMLLoader.load(getClass().getResource("acceuil.fxml"));
         try {
-            Parent parent = FXMLLoader.load(getClass().getResource("tableViewTerrain.fxml"));
+            Parent parent = FXMLLoader.load(getClass().getResource("manageDisponibiliteTerrain.fxml"));
 
             Scene scene = new Scene(parent);
             primaryStage.setScene(scene);
