@@ -136,4 +136,27 @@ public class MaterielService implements Iservice<Materiel>{
             Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    /*
+    @Override
+public void update(Reclamation rec) {
+    String query = "UPDATE reclamation SET status = ? WHERE id = ?";
+
+    try (
+        Connection connection = DriverManager.getConnection("your_connection_string")) {
+        PreparedStatement pst = connection.prepareStatement(query);
+        pst.setString(1, materiel.getName());
+        pst.setInt(2, materiel.getId());
+
+        int rowsAffected = pst.executeUpdate();
+        if (rowsAffected > 0) {
+            System.out.println("Material updated successfully.");
+        } else {
+            System.out.println("No material found with the given ID.");
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+}
+
+     */
 }
