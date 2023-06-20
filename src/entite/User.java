@@ -13,11 +13,16 @@ public class User {
 
     private int numTel;
 
-    private int idRole;
+    private String role;
 
     private int idTeam;
 
     public User() {
+    }
+
+    public User(String firstName, String password) {
+        this.firstName = firstName;
+        this.password = password;
     }
 
     public User(String firstName, String lastName, String email, String password, int numTel) {
@@ -27,7 +32,6 @@ public class User {
         this.email = email;
         this.password = password;
         this.numTel = numTel;
-        this.idRole=NULL;
         this.idTeam=NULL;
     }
     public User(int idUser,String firstName, String lastName, String email, String password, int numTel,int idTeam) {
@@ -39,6 +43,18 @@ public class User {
         this.numTel = numTel;
         this.idTeam=idTeam;
     }
+
+    public User(int idUser, String firstName, String lastName, String email, String password, int numTel, int idTeam, String role) {
+        this.idUser=idUser;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.numTel = numTel;
+        this.idTeam=idTeam;
+        this.role=role;
+    }
+
     public int getIdUser() {
         return idUser;
     }
@@ -87,13 +103,7 @@ public class User {
         this.numTel = numTel;
     }
 
-    public int getIdRole() {
-        return idRole;
-    }
 
-    public void setIdRole(int idRole) {
-        this.idRole = idRole;
-    }
 
     public int getIdTeam() {
         return idTeam;
@@ -103,18 +113,11 @@ public class User {
         this.idTeam = idTeam;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "idUser=" + idUser +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", numTel=" + numTel +
-                ", idRole=" + idRole +
-                ", idTeam=" + idTeam +
-                '}';
+    public String getRole() {
+        return role;
     }
 
+    public void setRole(String role) {
+        this.role = role;
+    }
 }
